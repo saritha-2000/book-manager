@@ -49,7 +49,7 @@ const BookDetails = () => {
         title,
         author,
         publicationYear,
-        isbn
+        // isbn
     } = book;
 
     const isbnInfo = isbnData?.volumeInfo || {};
@@ -92,7 +92,7 @@ const BookDetails = () => {
                                 <Divider sx={{ my: 2 }} />
                                 <Box>
                                     <Typography variant="body2" color="textSecondary">
-                                        <strong>Published Year:</strong> {publicationYear || isbnInfo.publishedDate}
+                                        <strong>Published Year:</strong> { isbnInfo.publishedDate || publicationYear}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary">
                                         <strong>Publisher:</strong> {isbnInfo.publisher}

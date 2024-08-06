@@ -20,8 +20,8 @@ export const addBook = createAsyncThunk('books/addBook', async (book, { dispatch
         const response = await api.post('/books', book);
         dispatch(showNotification({ message: 'Book added successfully', type: 'success' }));
         return response.data;
-    } catch (error) {
-        dispatch(showNotification({ message: 'Failed to add book', type: 'error' }));
+    } catch (error) {                
+        dispatch(showNotification({ message: 'The ISBN you entered already exists.', type: 'error' }));
         throw error;
     }
 });

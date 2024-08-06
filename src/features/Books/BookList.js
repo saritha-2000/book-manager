@@ -50,7 +50,7 @@ const BookList = () => {
     if (bookStatus === 'idle') {
       dispatch(fetchBooks({ page: 1, limit: 15 }));
     }
-  }, []);
+  }, [bookStatus, dispatch]);
 
   // Load more books on scroll
   useEffect(() => {
