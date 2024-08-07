@@ -40,12 +40,17 @@ const AddNewBookModal = ({ open, handleClose, book, isEditMode }) => {
             setYear(book.publicationYear.toString());
             setIsbn(book.isbn);
         } else {
-            setTitle('');
-            setAuthor('');
-            setYear('');
-            setIsbn('');
+            resetForm();
         }
     }, [isEditMode, book]);
+
+    const resetForm = () => {
+        setTitle('');
+        setAuthor('');
+        setYear('');
+        setIsbn('');
+        setErrors({});
+    };
 
     // form validation
     const validate = () => {
@@ -84,7 +89,7 @@ const AddNewBookModal = ({ open, handleClose, book, isEditMode }) => {
         } else {
             dispatch(addBook(newBook));
         }
-
+        resetForm();
         handleClose();
     };
 
@@ -112,7 +117,7 @@ const AddNewBookModal = ({ open, handleClose, book, isEditMode }) => {
                         margin="normal"
                         error={!!errors.title}
                         helperText={errors.title}
-                        inputProps={{ maxLength: 100 }} 
+                        inputProps={{ maxLength: 100 }}
                     />
                     <TextField
                         label="Author"
