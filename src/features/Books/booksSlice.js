@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../services/api';
 import { showNotification } from '../notificationsSlice';
 
+// get books paginated api
 export const fetchBooks = createAsyncThunk(
     'books/fetchBooks',
     async ({ page , limit }, { dispatch }) => {
@@ -15,6 +16,7 @@ export const fetchBooks = createAsyncThunk(
     }
 );
 
+//add book api
 export const addBook = createAsyncThunk('books/addBook', async (book, { dispatch }) => {
     try {
         const response = await api.post('/books', book);
@@ -26,6 +28,7 @@ export const addBook = createAsyncThunk('books/addBook', async (book, { dispatch
     }
 });
 
+// delete book api
 export const deleteBook = createAsyncThunk('books/deleteBook', async (id, { dispatch }) => {
     try {
         await api.delete(`/books/${id}`);
@@ -37,6 +40,7 @@ export const deleteBook = createAsyncThunk('books/deleteBook', async (id, { disp
     }
 });
 
+// update book api
 export const updateBook = createAsyncThunk('books/updateBook', async (updatedBook, { dispatch }) => {
     try {
         const { id, ...bookData } = updatedBook;

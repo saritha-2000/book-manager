@@ -35,7 +35,7 @@ const BookList = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Ref for TableContainer
+  // ref for table container
   const tableContainerRef = useRef(null);
 
   // Get user data from localStorage
@@ -52,14 +52,13 @@ const BookList = () => {
     }
   }, [bookStatus, dispatch]);
 
-  // Load more books on scroll
+  // Infinity scroll
   useEffect(() => {
     const handleScroll = () => {
       const container = tableContainerRef.current;
       if (container) {
         const { scrollTop, scrollHeight, clientHeight } = container;
         if (scrollTop + clientHeight >= scrollHeight - 50 && hasMore && bookStatus !== 'loading') {
-          console.log('Fetching more books...');
           dispatch(fetchBooks({ page: currentPage + 1, limit: 15 }));
         }
       }
@@ -95,10 +94,6 @@ const BookList = () => {
     dispatch(deleteBook(id));
   };
 
-  // if (bookStatus === 'loading' && currentPage === 1) {
-  //   return <Loading />;
-  // }
-
   if (bookStatus === 'failed') {
     return <div>Error: {error}</div>;
   }
@@ -111,9 +106,10 @@ const BookList = () => {
     <>
       <TableContainer
         component={Paper}
-        sx={{ borderRadius: 2, maxHeight: '80vh', overflow: 'auto' }}
+        sx={{ borderRadius: 2, maxHeight: '80vh', overflow: 'auto', position: 'relative' }}
         ref={tableContainerRef}
       >
+        {bookStatus === 'loading' && <Loading />}
         <Table stickyHeader>
           <TableHead>
             <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
@@ -123,7 +119,8 @@ const BookList = () => {
               {isAuthenticated && <TableCell><strong>Edit / Delete</strong></TableCell>}
             </TableRow>
           </TableHead>
-          <TableBody>
+          
+          <TableBody style={bookStatus === 'loading' ? { filter: 'blur(4px)', opacity: 0.6 } : {}}>
             {books.map((book) => (
               <TableRow key={book._id} onClick={() => handleBookClick(book._id)} hover>
                 <TableCell>{book.title}</TableCell>

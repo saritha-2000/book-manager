@@ -33,8 +33,6 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/books/:id" element={<BookDetails />} />
-          {/* <Route path="/add" element={<AddBook />} />
-          <Route path="/edit/:id" element={<EditBook />} /> */}
         </Routes>
       </Router>
     </ThemeProvider>

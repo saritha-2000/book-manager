@@ -25,12 +25,16 @@ const BookDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // get book details by id
     useEffect(() => {
         const getBookDetails = async () => {
             try {
                 const response = await api.get(`/books/${id}`);
                 setBook(response.data);
-                setIsbnData(response.data.isbn ? await fetchBookDetails(response.data.isbn) : null);
+                if (response.data.isbn) {
+                    const isbnDetails = await fetchBookDetails(response.data.isbn);
+                    setIsbnData(isbnDetails);
+                }
             } catch (err) {
                 setError(err);
             } finally {
@@ -49,10 +53,10 @@ const BookDetails = () => {
         title,
         author,
         publicationYear,
-        // isbn
+        isbn
     } = book;
 
-    const isbnInfo = isbnData?.volumeInfo || {};
+    const isbnInfo = isbnData || {};
 
     return (
         <>
@@ -68,7 +72,7 @@ const BookDetails = () => {
                             <Card>
                                 <CardMedia
                                     component="img"
-                                    image={isbnInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150'}
+                                    image={isbnInfo.cover?.medium || 'https://via.placeholder.com/150'}
                                     alt={isbnInfo.title || title}
                                     sx={{ height: 350 }}
                                 />
@@ -81,27 +85,27 @@ const BookDetails = () => {
                                     {isbnInfo.title || title}
                                 </Typography>
                                 <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-                                    {isbnInfo.authors?.join(', ') || author}
+                                    {isbnInfo.authors?.map(author => author.name).join(', ') || author}
                                 </Typography>
                                 <Typography variant="body2" color="textSecondary" paragraph>
-                                    {isbnInfo.categories?.join(', ')}
+                                    {isbnInfo.subjects?.map(subject => subject.name).join(', ')}
                                 </Typography>
                                 <Typography variant="body1" paragraph>
-                                    {isbnInfo.description || 'No description available.'}
+                                    {isbnInfo.excerpts ? isbnInfo.excerpts[0]?.text : 'No description available.'}
                                 </Typography>
                                 <Divider sx={{ my: 2 }} />
                                 <Box>
                                     <Typography variant="body2" color="textSecondary">
-                                        <strong>Published Year:</strong> { isbnInfo.publishedDate || publicationYear}
+                                        <strong>Published Year:</strong> {isbnInfo.publish_date || publicationYear}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary">
-                                        <strong>Publisher:</strong> {isbnInfo.publisher}
+                                        <strong>Publisher:</strong> {isbnInfo.publishers?.map(publisher => publisher.name).join(', ')}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary">
-                                        <strong>Page Count:</strong> {isbnInfo.pageCount}
+                                        <strong>Page Count:</strong> {isbnInfo.number_of_pages}
                                     </Typography>
                                     <Typography variant="body2" color="textSecondary">
-                                        <strong>Average Rating:</strong> {isbnInfo.averageRating || 'N/A'} ({isbnInfo.ratingsCount || '0'} ratings)
+                                        <strong>ISBN:</strong> {isbn}
                                     </Typography>
                                 </Box>
                             </CardContent>

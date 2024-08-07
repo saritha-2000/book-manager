@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, Container, Box } from '@mui/material';
 import Navbar from '../components/Navbar';
-// import { useNavigate } from 'react-router-dom';
 import BookList from '../features/Books/BookList';
 import BookForm from '../components/BookForm';
 import api from '../services/api';
@@ -10,7 +9,6 @@ import api from '../services/api';
 function Home() {
     const [openModal, setOpenModal] = useState(false);
     const [user, setUser] = useState(null);
-    // const navigate = useNavigate();
 
     useEffect(() => {
         api.get('/user/user-details')

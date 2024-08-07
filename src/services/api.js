@@ -27,8 +27,10 @@ export const logout = async () => {
 
 export const fetchBookDetails = async (isbn) => {
     try {
-        const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
-        return response.data.items[0];
+        const response = await axios.get(`https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`);        
+        return response.data[`ISBN:${isbn}`];
+        // const response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`);
+        // return response.data.items[0];
     } catch (error) {
         console.error('Error fetching book details:', error);
         return null;

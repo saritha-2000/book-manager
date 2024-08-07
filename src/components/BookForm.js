@@ -112,6 +112,7 @@ const AddNewBookModal = ({ open, handleClose, book, isEditMode }) => {
                         margin="normal"
                         error={!!errors.title}
                         helperText={errors.title}
+                        inputProps={{ maxLength: 100 }} 
                     />
                     <TextField
                         label="Author"
@@ -122,6 +123,7 @@ const AddNewBookModal = ({ open, handleClose, book, isEditMode }) => {
                         margin="normal"
                         error={!!errors.author}
                         helperText={errors.author}
+                        inputProps={{ maxLength: 50 }}
                     />
                     <TextField
                         label="Publication Year"
